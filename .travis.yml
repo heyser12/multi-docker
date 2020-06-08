@@ -1,0 +1,16 @@
+sudo: required
+services:
+    - docker
+
+    before_install:
+        - docker build -t heyser12/react-test -f ./client/Dockerfile.dev ./client
+
+    script:
+        - docker run  heyser12/react-test npm -- --
+
+    after_success:
+        - docker build -t heyser12/multi-client ./client
+        - docker build -t heyser12/multi-nginx ./nginx
+        - docker build -t heyser12/multi-server ./server
+        - docker build -t heyser12/multi-worker ./worker
+    
