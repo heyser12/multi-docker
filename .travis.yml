@@ -6,11 +6,20 @@ services:
         - docker build -t heyser12/react-test -f ./client/Dockerfile.dev ./client
 
     script:
-        - docker run  heyser12/react-test npm -- --
+        - docker run  heyser12/react-test npm -- --coverage
 
     after_success:
         - docker build -t heyser12/multi-client ./client
         - docker build -t heyser12/multi-nginx ./nginx
         - docker build -t heyser12/multi-server ./server
         - docker build -t heyser12/multi-worker ./worker
+
+# Login to Docker Hub
+        - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+
+#take those images  and push to docker hub
+        - docker push heyser12/multi-client 
+        - docker push heyser12/multi-nginx
+        - docker push heyser12/multi-server 
+        - docker push heyser12/multi-worker
     
