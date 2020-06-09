@@ -4,23 +4,23 @@ services:
     - docker
 
     before_install:
-        - docker build -t heyser12/react-test -f ./client/Dockerfile.dev ./client
+        - docker build -t heyser/react-test -f ./client/Dockerfile.dev ./client
 
     script:
-        - docker run -e CI=true heyser12/react-test npm test
+        - docker run -e CI=true heyser/react-test npm test
 
     after_success:
-        - docker build -t heyser12/multi-client ./client
-        - docker build -t heyser12/multi-nginx ./nginx
-        - docker build -t heyser12/multi-server ./server
-        - docker build -t heyser12/multi-worker ./worker
+        - docker build -t heyser/multi-client ./client
+        - docker build -t heyser/multi-nginx ./nginx
+        - docker build -t heyser/multi-server ./server
+        - docker build -t heyser/multi-worker ./worker
 
 # Login to Docker Hub
         - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
 
 #take those images  and push to docker hub
-        - docker push heyser12/multi-client 
-        - docker push heyser12/multi-nginx
-        - docker push heyser12/multi-server 
-        - docker push heyser12/multi-worker
+        - docker push heyser/multi-client 
+        - docker push heyser/multi-nginx
+        - docker push heyser/multi-server 
+        - docker push heyser/multi-worker
     
