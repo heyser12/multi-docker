@@ -1,3 +1,4 @@
+language: generic
 sudo: required
 services:
     - docker
@@ -6,7 +7,7 @@ services:
         - docker build -t heyser12/react-test -f ./client/Dockerfile.dev ./client
 
     script:
-        - docker run  heyser12/react-test npm -- --coverage
+        - docker run -e CI=true USERNAME/react-test npm test
 
     after_success:
         - docker build -t heyser12/multi-client ./client
